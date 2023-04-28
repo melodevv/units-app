@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../viewmodel/units_viewmodel.dart';
+import 'package:unitsapp/viewmodel/units_viewmodel.dart';
 
 class SecondPage extends StatefulWidget {
   const SecondPage({super.key});
@@ -46,10 +45,9 @@ class _SecondPageState extends State<SecondPage> {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context, unitNumController.text);
-                  var units = context.watch<UnitsViewModel>().units;
-                  context.read<UnitsViewModel>().selectedUnit =
-                      units[(unitNumController.text as int) - 1];
+                  Navigator.pop(context);
+                  context.read<UnitsViewModel>().selectedUnits =
+                      UnitsViewModel().units;
                 },
                 child: const Text('Open Unit'))
           ],

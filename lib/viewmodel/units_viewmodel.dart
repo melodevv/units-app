@@ -10,12 +10,14 @@ class UnitsViewModel with ChangeNotifier {
 
   List<UnitsModel> _units = [];
   List<UnitsModel> get units => _units;
+  set units(List<UnitsModel> value) {
+    _units = value;
+  }
 
-  UnitsModel? _selectedUnit;
-  UnitsModel? get selectedUnit => _selectedUnit;
-  set selectedUnit(UnitsModel? unit) {
-    _selectedUnit = unit;
-    notifyListeners();
+  List<UnitsModel> _selectedUnit = [];
+  List<UnitsModel> get selectedUnit => _selectedUnit;
+  set selectedUnits(List<UnitsModel> value) {
+    _selectedUnit = value;
   }
 
   bool _error = false;
@@ -64,7 +66,21 @@ class UnitsViewModel with ChangeNotifier {
     }
   }
 
+  void displaySelectedUnit(int index) {
+    if (index == 0) {
+      selectedUnit.addAll(_units);
+    } else if (index > 0 && index <= _units.length) {
+      selectedUnit.add(_units[index]);
+    } else {
+      startError('The unit number entered does not exist');
+    }
+    notifyListeners();
+  }
+
   void initialValue() {
     _units = [];
+    _selectedUnit = [];
+    startLoading('Loading');
+    stopError();
   }
 }
