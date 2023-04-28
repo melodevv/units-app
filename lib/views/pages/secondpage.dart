@@ -1,3 +1,6 @@
+// Student Number: 220030521
+// Surname Initial: Direko T
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unitsapp/viewmodel/units_viewmodel.dart';
@@ -30,6 +33,7 @@ class _SecondPageState extends State<SecondPage> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: unitNumController,
                 decoration: InputDecoration(
                   hintText: 'Enter Unit Number',
@@ -45,11 +49,17 @@ class _SecondPageState extends State<SecondPage> {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
-                  UnitsViewModel.selectedUnit =
-                      int.parse(unitNumController.text) - 1;
-                  Navigator.pop(context);
-                  // context.read<UnitsViewModel>().fetchUnitsData();
-                  context.read<UnitsViewModel>().selectedToDisplay();
+                  //
+                  // Trying to make sure an empty string doesnt get passed
+                  //
+                  if (unitNumController.text != '') {
+                    UnitsViewModel.selectedUnit =
+                        int.parse(unitNumController.text) - 1;
+
+                    Navigator.pop(context);
+                    context.read<UnitsViewModel>().fetchUnitsData();
+                    context.read<UnitsViewModel>().selectedToDisplay();
+                  }
                 },
                 child: const Text('Open Unit'))
           ],

@@ -1,3 +1,6 @@
+// Student Number: 220030521
+// Surname Initial: Direko T
+
 import 'package:flutter/material.dart';
 import '../views/pages/homepage.dart';
 import '../views/pages/secondpage.dart';
@@ -16,7 +19,7 @@ class RouteModel {
         );
       case secondPage:
         return MaterialPageRoute(
-          builder: (context) => SecondPage(),
+          builder: (context) => const SecondPage(),
         );
       default:
         throw const FormatException('Route not found, check routes again');

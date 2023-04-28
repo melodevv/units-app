@@ -1,19 +1,33 @@
-import 'package:flutter/material.dart';
+// Student Number: 220030521
+// Surname Initial: Direko T
 
+import 'package:flutter/material.dart';
 import '../models/units_model.dart';
 import '../services/units_service.dart';
 
 class UnitsViewModel extends ChangeNotifier {
   List<UnitsModel> _allUnits = [];
+
+  // variable to get the user requested unit
   static int selectedUnit = -1;
 
+  //
+  // Class Constructor
+  //
   UnitsViewModel() {
     fetchUnitsData();
     selectedToDisplay();
   }
 
+  //
+  // unit List variable with
+  // setter and getter method
+  //
   List<UnitsModel> _units = [];
   List<UnitsModel> get units {
+    //
+    // units filtering according to user request
+    //
     _units.clear();
     if (selectedUnit == -1) {
       _units = _allUnits;
@@ -23,11 +37,11 @@ class UnitsViewModel extends ChangeNotifier {
     return _units;
   }
 
+  //
+  // Method to vaildate user input
+  //
   void selectedToDisplay() {
-    startLoading('loading unit');
     try {
-      stopLoading();
-      // print('trying $_allUnits');
       if (selectedUnit >= 0 && selectedUnit < _allUnits.length) {
         _units = [];
         _units.add(_allUnits[selectedUnit]);
@@ -39,6 +53,10 @@ class UnitsViewModel extends ChangeNotifier {
     }
   }
 
+  //
+  // Variables to work with Errors and
+  // Custom Loading Messages
+  //
   bool _error = false;
   bool get error => _error;
 
@@ -65,7 +83,6 @@ class UnitsViewModel extends ChangeNotifier {
   void startLoading(String message) {
     _loading = true;
     _loadingMessage = message;
-    notifyListeners();
   }
 
   void stopLoading() {
@@ -73,11 +90,15 @@ class UnitsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //
+  // Method to fetch data from the
+  // cloud storage
+  //
   void fetchUnitsData() async {
-    startLoading('Loading... please wait...');
+    startLoading('Loading...');
 
     try {
-      _allUnits = await UnitsService.FetchData;
+      _allUnits = await UnitsService.fetchData;
       stopLoading();
     } catch (e) {
       stopLoading();
@@ -85,17 +106,9 @@ class UnitsViewModel extends ChangeNotifier {
     }
   }
 
-  // void displaySelectedUnit(int index) {
-  //   if (index == 0) {
-  //     selectedUnit.addAll(_units);
-  //   } else if (index > 0 && index <= _units.length) {
-  //     selectedUnit.add(_units[index]);
-  //   } else {
-  //     startError('The unit number entered does not exist');
-  //   }
-  //   notifyListeners();
-  // }
-
+  //
+  // Reset variables to initial state
+  //
   void initialValue() {
     _units = [];
     selectedUnit = -1;

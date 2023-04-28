@@ -1,3 +1,6 @@
+// Student Number: 220030521
+// Surname Initial: Direko T
+
 class UnitsModel {
   final String definition;
   final String concepts;

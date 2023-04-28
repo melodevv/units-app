@@ -1,3 +1,6 @@
+// Student Number: 220030521
+// Surname Initial: Direko T
+
 // ignore_for_file: prefer_is_empty
 
 import 'package:flutter/material.dart';
@@ -20,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   int unitToDisplay = 0;
   @override
   Widget build(BuildContext context) {
+    context.read<UnitsViewModel>().fetchUnitsData();
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         extendedPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -61,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             child: Selector<UnitsViewModel, List>(
               selector: (context, viewModel) => viewModel.units,
               builder: (context, unit, child) {
-                return unit.isNotEmpty
+                return unit.isNotEmpty || UnitsViewModel.selectedUnit == -1
                     ? ListView.builder(
                         itemCount: unit.length,
                         itemBuilder: (context, index) {
@@ -70,7 +74,15 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       )
-                    : const Text('PAGE NOT FOUND');
+                    : const Center(
+                        child: Text(
+                          'UNIT NOT FOUND',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red),
+                        ),
+                      );
               },
             ),
           ),
@@ -98,46 +110,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // body: Center(
-      //   child: Column(
-      //     children: [
-      //       const Text(
-      //         'My TPG316C Units',
-      //         style: TextStyle(
-      //           fontSize: 22,
-      //           fontWeight: FontWeight.w800,
-      //         ),
-      //       ),
-      //       const SizedBox(
-      //         height: 20,
-      //       ),
-      //       Selector<UnitsViewModel, List>(
-      //         selector: (context, viewModel) => viewModel.units,
-      //         builder: (context, reviews, child) {
-      //           return reviews.length == 0
-      //               ? const CircularProgressIndicator()
-      //               : Expanded(
-      //                   child: ListView.builder(
-      //                     itemCount: reviews.length,
-      //                     itemBuilder: (context, index) {
-      //                       return Padding(
-      //                         padding: const EdgeInsets.only(
-      //                           left: 15,
-      //                           right: 15,
-      //                           bottom: 30,
-      //                         ),
-      //                         child: UnitListItem(
-      //                           unitsModel: reviews[index],
-      //                         ),
-      //                       );
-      //                     },
-      //                   ),
-      //                 );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

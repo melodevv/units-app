@@ -1,3 +1,6 @@
+// Student Number: 220030521
+// Surname Initial: Direko T
+
 import 'package:flutter/material.dart';
 
 class LoadingBar extends StatelessWidget {
