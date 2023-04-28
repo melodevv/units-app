@@ -59,16 +59,18 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Selector<UnitsViewModel, List>(
-              selector: (context, viewModel) => viewModel.selectedUnit,
-              builder: (context, selectedUnit, child) {
-                return ListView.builder(
-                  itemCount: selectedUnit.length,
-                  itemBuilder: (context, index) {
-                    return UnitListItem(
-                      unitsModel: selectedUnit[index],
-                    );
-                  },
-                );
+              selector: (context, viewModel) => viewModel.units,
+              builder: (context, unit, child) {
+                return unit.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: unit.length,
+                        itemBuilder: (context, index) {
+                          return UnitListItem(
+                            unitsModel: unit[index],
+                          );
+                        },
+                      )
+                    : const Text('PAGE NOT FOUND');
               },
             ),
           ),

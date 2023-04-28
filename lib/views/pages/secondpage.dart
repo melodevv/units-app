@@ -45,9 +45,11 @@ class _SecondPageState extends State<SecondPage> {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
+                  UnitsViewModel.selectedUnit =
+                      int.parse(unitNumController.text) - 1;
                   Navigator.pop(context);
-                  context.read<UnitsViewModel>().selectedUnits =
-                      UnitsViewModel().units;
+                  // context.read<UnitsViewModel>().fetchUnitsData();
+                  context.read<UnitsViewModel>().selectedToDisplay();
                 },
                 child: const Text('Open Unit'))
           ],

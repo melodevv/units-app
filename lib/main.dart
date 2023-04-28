@@ -16,13 +16,15 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UnitsViewModel(),
+          builder: (context, child) {
+            return const MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: RouteModel.homePage,
+              onGenerateRoute: RouteModel.generateRoute,
+            );
+          },
         ),
       ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: RouteModel.homePage,
-        onGenerateRoute: RouteModel.generateRoute,
-      ),
     );
   }
 }

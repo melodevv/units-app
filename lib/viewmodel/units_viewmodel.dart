@@ -3,21 +3,40 @@ import 'package:flutter/material.dart';
 import '../models/units_model.dart';
 import '../services/units_service.dart';
 
-class UnitsViewModel with ChangeNotifier {
+class UnitsViewModel extends ChangeNotifier {
+  List<UnitsModel> _allUnits = [];
+  static int selectedUnit = -1;
+
   UnitsViewModel() {
     fetchUnitsData();
+    selectedToDisplay();
   }
 
   List<UnitsModel> _units = [];
-  List<UnitsModel> get units => _units;
-  set units(List<UnitsModel> value) {
-    _units = value;
+  List<UnitsModel> get units {
+    _units.clear();
+    if (selectedUnit == -1) {
+      _units = _allUnits;
+    } else {
+      selectedToDisplay();
+    }
+    return _units;
   }
 
-  List<UnitsModel> _selectedUnit = [];
-  List<UnitsModel> get selectedUnit => _selectedUnit;
-  set selectedUnits(List<UnitsModel> value) {
-    _selectedUnit = value;
+  void selectedToDisplay() {
+    startLoading('loading unit');
+    try {
+      stopLoading();
+      // print('trying $_allUnits');
+      if (selectedUnit >= 0 && selectedUnit < _allUnits.length) {
+        _units = [];
+        _units.add(_allUnits[selectedUnit]);
+      } else {
+        _units = [];
+      }
+    } catch (e) {
+      startError(e.toString());
+    }
   }
 
   bool _error = false;
@@ -58,7 +77,7 @@ class UnitsViewModel with ChangeNotifier {
     startLoading('Loading... please wait...');
 
     try {
-      _units = await UnitsService.FetchData;
+      _allUnits = await UnitsService.FetchData;
       stopLoading();
     } catch (e) {
       stopLoading();
@@ -66,21 +85,20 @@ class UnitsViewModel with ChangeNotifier {
     }
   }
 
-  void displaySelectedUnit(int index) {
-    if (index == 0) {
-      selectedUnit.addAll(_units);
-    } else if (index > 0 && index <= _units.length) {
-      selectedUnit.add(_units[index]);
-    } else {
-      startError('The unit number entered does not exist');
-    }
-    notifyListeners();
-  }
+  // void displaySelectedUnit(int index) {
+  //   if (index == 0) {
+  //     selectedUnit.addAll(_units);
+  //   } else if (index > 0 && index <= _units.length) {
+  //     selectedUnit.add(_units[index]);
+  //   } else {
+  //     startError('The unit number entered does not exist');
+  //   }
+  //   notifyListeners();
+  // }
 
   void initialValue() {
     _units = [];
-    _selectedUnit = [];
-    startLoading('Loading');
+    selectedUnit = -1;
     stopError();
   }
 }
